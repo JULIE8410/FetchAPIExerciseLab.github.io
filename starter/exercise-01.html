@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Fetch API Exercise Lab</title>
+</head>
+
+<body>
+  <div id="container">
+    <h1>The Fetch API Exercises</h1>
+    <p>Open the web inspector console to test.</p>
+    <Button id="load-photo">Load Dog Photo</Button>
+  </div>
+</body>
+<script>
+
+
+const button = document.querySelector('#load-photo');
+
+// Add click event
+button.addEventListener('click', init);
+
+async function init(){
+
+    // Load spinner image inside a button
+    loadSpinner();
+
+    // Get some data
+    const data = await getRandomDogPhoto();
+
+    //Render the data
+    renderDogPhogo(data.message);
+
+    // Remove spinner&button
+    removeSpinner();
+
+}
+
+// Remove button and spinner
+function removeSpinner(){
+
+  button.remove();
+
+}
+
+// Load spinner inside button
+function loadSpinner(){
+  
+  const spinner = `../assets/loader.svg`;
+
+  const img = `<img src="${spinner}" id="spinner" alt="Loading spinner image"/>`;
+
+  button.insertAdjacentHTML('afterbegin', img);
+
+  button.disabled = true;
+
+}
+
+// Render image
+function renderDogPhogo(url){
+
+  var imgHTML = `<img src="${url}" alt="Random Dog"/>`;
+
+  const divContainer = document.querySelector('#container');
+
+  divContainer.insertAdjacentHTML('beforeend', imgHTML);
+
+}
+
+// Get a random dog
+function getRandomDogPhoto(){
+
+  const url = 'https://dog.ceo/api/breeds/image/random';
+
+  return fetch(url)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+
+}
+
+</script>
+</html>
